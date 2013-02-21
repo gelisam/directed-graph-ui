@@ -230,8 +230,7 @@ function restart() {
   // remove old nodes
   circle.exit().remove();
 
-  // prevent I-bar cursor on drag
-  if(d3.event) d3.event.preventDefault();
+  //if(d3.event) d3.event.preventDefault();
 
   // set the graph in motion
   force.start();
