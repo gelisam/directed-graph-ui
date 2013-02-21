@@ -1,7 +1,7 @@
-Click in the open space to **add a state**, drag from one state to another to **add a transition**.  
-Click a state or a transition to **select** it.
+Click in the open space to **add a node**, drag from one node to another to **add an edge**.  
+Click a node or an edge to **select** it.
 
-When a state is selected: **R** toggles reflexivity, **Delete** removes the state.  
-When a transition is selected: **L**(eft), **R**(ight), **B**(oth) change direction, **Delete** removes the transition.
+When a node is selected: **R** toggles reflexivity, **Delete** removes the node.  
+When an edge is selected: **L**(eft), **R**(ight), **B**(oth) change direction, **Delete** removes the edge.
 
 To see this example as part of a larger project, check out [Modal Logic Playground](http://rkirsling.github.com/modallogic/).
