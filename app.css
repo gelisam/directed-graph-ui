@@ -8,7 +8,7 @@ svg {
   user-select: none;
 }
 
-svg:not(.active) {
+svg:not(.active):not(.ctrl) {
   cursor: crosshair;
 }
 
@@ -19,7 +19,7 @@ path.link {
   cursor: default;
 }
 
-svg:not(.active) path.link {
+svg:not(.active):not(.ctrl) path.link {
   cursor: pointer;
 }
 
