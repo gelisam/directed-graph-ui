@@ -118,6 +118,8 @@ function restart() {
     .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
     .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
     .on('mousedown', function(d) {
+      if(d3.event.ctrlKey) return;
+
       // select link
       mousedown_link = d;
       if(mousedown_link === selected_link) selected_link = null;
@@ -159,6 +161,8 @@ function restart() {
       d3.select(this).attr('transform', '');
     })
     .on('mousedown', function(d) {
+      if(d3.event.ctrlKey) return;
+
       // select node
       mousedown_node = d;
       if(mousedown_node === selected_node) selected_node = null;
@@ -218,7 +222,7 @@ function restart() {
       selected_link = link;
       selected_node = null;
       restart();
-    })
+    });
 
   // show node IDs
   g.append('svg:text')
@@ -240,7 +244,7 @@ function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
 
-  if(mousedown_node || mousedown_link) return;
+  if(d3.event.ctrlKey || mousedown_node || mousedown_link) return;
 
   // insert new node at point
   var point = d3.mouse(this),
@@ -253,7 +257,7 @@ function mousedown() {
 }
 
 function mousemove() {
-  if (!mousedown_node) return;
+  if(!mousedown_node) return;
 
   // update drag line
   drag_line.attr('d', 'M' + mousedown_node.x + ',' + mousedown_node.y + 'L' + d3.mouse(this)[0] + ',' + d3.mouse(this)[1]);
@@ -262,7 +266,7 @@ function mousemove() {
 }
 
 function mouseup() {
-  if (mousedown_node) {
+  if(mousedown_node) {
     // hide drag line
     drag_line
       .classed('hidden', true)
@@ -286,6 +290,12 @@ function spliceLinksForNode(node) {
 }
 
 function keydown() {
+  // ctrl
+  if(d3.event.keyCode === 17) {
+    circle.call(force.drag);
+    svg.classed('ctrl', true);
+  }
+
   if(!selected_node && !selected_link) return;
   switch(d3.event.keyCode) {
     case 46: // delete
@@ -329,9 +339,21 @@ function keydown() {
   }
 }
 
+function keyup() {
+  // ctrl
+  if(d3.event.keyCode === 17) {
+    circle
+      .on('mousedown.drag', null)
+      .on('touchstart.drag', null);
+    svg.classed('ctrl', false);
+  }
+}
+
 // app starts here
 svg.on('mousedown', mousedown)
   .on('mousemove', mousemove)
   .on('mouseup', mouseup);
-d3.select(window).on('keydown', keydown);
+d3.select(window)
+  .on('keydown', keydown)
+  .on('keyup', keyup);
 restart();
