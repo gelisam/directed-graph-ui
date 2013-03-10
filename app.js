@@ -289,7 +289,15 @@ function spliceLinksForNode(node) {
   });
 }
 
+// only respond once per keydown
+var lastKeyDown = -1;
+
 function keydown() {
+  d3.event.preventDefault();
+
+  if(lastKeyDown !== -1) return;
+  lastKeyDown = d3.event.keyCode;
+
   // ctrl
   if(d3.event.keyCode === 17) {
     circle.call(force.drag);
@@ -298,6 +306,7 @@ function keydown() {
 
   if(!selected_node && !selected_link) return;
   switch(d3.event.keyCode) {
+    case 8: // backspace
     case 46: // delete
       if(selected_node) {
         nodes.splice(nodes.indexOf(selected_node), 1);
@@ -340,6 +349,8 @@ function keydown() {
 }
 
 function keyup() {
+  lastKeyDown = -1;
+
   // ctrl
   if(d3.event.keyCode === 17) {
     circle
