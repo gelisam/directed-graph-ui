@@ -240,7 +240,7 @@ function restart() {
 
 function mousedown() {
   // prevent I-bar on drag
-  d3.event.preventDefault();
+  //d3.event.preventDefault();
   
   // because :active only works in WebKit?
   svg.classed('active', true);
