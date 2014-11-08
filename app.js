@@ -304,7 +304,10 @@ function keydown() {
   switch(d3.event.keyCode) {
     case 13: // Enter
       // insert new node
-      var name = document.getElementById("next_name").value;
+      var nameBox = document.getElementById("next_name");
+      nameBox.select();
+      
+      var name = nameBox.value;
       var node = {id: ++lastNodeId, name: name};
       nodes.push(node);
       
