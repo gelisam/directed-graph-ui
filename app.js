@@ -70,6 +70,9 @@ var selected_node = null,
     mousedown_node = null,
     mouseup_node = null;
 
+// DOM elements
+var nameBox = document.getElementById("next_name");
+
 function resetMouseVars() {
   mousedown_node = null;
   mouseup_node = null;
@@ -245,7 +248,7 @@ function mousedown() {
   if(d3.event.shiftKey || mousedown_node || mousedown_link) return;
 
   // insert new node at point
-  var name = document.getElementById("next_name").value;
+  var name = nameBox.value;
   var point = d3.mouse(this),
       node = {id: ++lastNodeId, name: name};
   node.x = point[0];
@@ -304,7 +307,6 @@ function keydown() {
   switch(d3.event.keyCode) {
     case 13: // Enter
       // insert new node
-      var nameBox = document.getElementById("next_name");
       nameBox.select();
       
       var name = nameBox.value;
