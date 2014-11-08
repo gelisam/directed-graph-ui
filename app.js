@@ -15,8 +15,17 @@ var nodes = [
     {id: 0, name: "A"},
     {id: 1, name: "B"},
     {id: 2, name: "C"}
-  ],
-  lastNodeId = 2,
+  ];
+function nodeByName(name) {
+  for (var i=0; i<nodes.length; ++i) {
+    var node = nodes[i];
+    if (node.name == name) return node;
+  }
+  
+  return false;
+}
+var lastNodeId = 2,
+  mouseover_mode = false,
   links = [
     {source: nodes[0], target: nodes[1], left: false, right: true },
     {source: nodes[1], target: nodes[2], left: false, right: true }
@@ -151,11 +160,13 @@ function restart() {
     .style('fill', function(d) { return (d === selected_node) ? d3.rgb(colors(d.id)).brighter().toString() : colors(d.id); })
     .style('stroke', function(d) { return d3.rgb(colors(d.id)).darker().toString(); })
     .on('mouseover', function(d) {
+      mouseover_mode = true;
       if(!mousedown_node || d === mousedown_node) return;
       // enlarge target node
       d3.select(this).attr('transform', 'scale(1.1)');
     })
     .on('mouseout', function(d) {
+      mouseover_mode = false;
       if(!mousedown_node || d === mousedown_node) return;
       // unenlarge target node
       d3.select(this).attr('transform', '');
@@ -245,15 +256,26 @@ function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
 
-  if(d3.event.shiftKey || mousedown_node || mousedown_link) return;
-
-  // insert new node at point
   var name = nameBox.value;
-  var point = d3.mouse(this),
-      node = {id: ++lastNodeId, name: name};
-  node.x = point[0];
-  node.y = point[1];
-  nodes.push(node);
+  if (mouseover_mode || mousedown_node || mousedown_link) {
+    return;
+  } else if (d3.event.shiftKey) {
+    // find node with the same name
+    var name = nameBox.value;
+    var point = d3.mouse(this),
+        node = nodeByName(name);
+    if (node) {
+      node.x = node.px = point[0];
+      node.y = node.py = point[1];
+    }
+  } else {
+    // insert new node at point
+    var point = d3.mouse(this),
+        node = {id: ++lastNodeId, name: name};
+    node.x = point[0];
+    node.y = point[1];
+    nodes.push(node);
+  }
 
   restart();
 }
