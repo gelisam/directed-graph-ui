@@ -12,9 +12,9 @@ var svg = d3.select('body')
 //  - nodes are known by 'id', not by index in array.
 //  - links are always source < target; edge directions are set by 'left' and 'right'.
 var nodes = [
-    {id: 0},
-    {id: 1},
-    {id: 2}
+    {id: 0, name: "A"},
+    {id: 1, name: "B"},
+    {id: 2, name: "C"}
   ],
   lastNodeId = 2,
   links = [
@@ -226,7 +226,7 @@ function restart() {
       .attr('x', 0)
       .attr('y', 4)
       .attr('class', 'id')
-      .text(function(d) { return d.id; });
+      .text(function(d) { return d.name; });
 
   // remove old nodes
   circle.exit().remove();
@@ -245,8 +245,9 @@ function mousedown() {
   if(d3.event.shiftKey || mousedown_node || mousedown_link) return;
 
   // insert new node at point
+  var name = document.getElementById("next_name").value;
   var point = d3.mouse(this),
-      node = {id: ++lastNodeId};
+      node = {id: ++lastNodeId, name: name};
   node.x = point[0];
   node.y = point[1];
   nodes.push(node);
