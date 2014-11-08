@@ -367,4 +367,9 @@ svg.on('mousedown', mousedown)
 d3.select(window)
   .on('keydown', keydown)
   .on('keyup', keyup);
+nameBox.addEventListener('focus', function() {
+  selected_link = null;
+  selected_node = null;
+  restart();
+})
 restart();
