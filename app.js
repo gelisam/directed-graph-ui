@@ -117,7 +117,7 @@ function restart() {
     .style('marker-start', function(d) { return d.left ? 'url(#start-arrow)' : ''; })
     .style('marker-end', function(d) { return d.right ? 'url(#end-arrow)' : ''; })
     .on('mousedown', function(d) {
-      if(d3.event.ctrlKey) return;
+      if(d3.event.shiftKey) return;
 
       // select link
       mousedown_link = d;
@@ -158,7 +158,7 @@ function restart() {
       d3.select(this).attr('transform', '');
     })
     .on('mousedown', function(d) {
-      if(d3.event.ctrlKey) return;
+      if(d3.event.shiftKey) return;
 
       // select node
       mousedown_node = d;
@@ -242,7 +242,7 @@ function mousedown() {
   // because :active only works in WebKit?
   svg.classed('active', true);
 
-  if(d3.event.ctrlKey || mousedown_node || mousedown_link) return;
+  if(d3.event.shiftKey || mousedown_node || mousedown_link) return;
 
   // insert new node at point
   var point = d3.mouse(this),
@@ -296,10 +296,10 @@ function keydown() {
   if(lastKeyDown !== -1) return;
   lastKeyDown = d3.event.keyCode;
 
-  // ctrl
-  if(d3.event.keyCode === 17) {
+  // shift
+  if(d3.event.keyCode === 16) {
     circle.call(force.drag);
-    svg.classed('ctrl', true);
+    svg.classed('dragging', true);
   }
 
   if(!selected_node && !selected_link) return;
@@ -338,12 +338,12 @@ function keydown() {
 function keyup() {
   lastKeyDown = -1;
 
-  // ctrl
-  if(d3.event.keyCode === 17) {
+  // shift
+  if(d3.event.keyCode === 16) {
     circle
       .on('mousedown.drag', null)
       .on('touchstart.drag', null);
-    svg.classed('ctrl', false);
+    svg.classed('dragging', false);
   }
 }
 
