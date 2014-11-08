@@ -292,8 +292,6 @@ function spliceLinksForNode(node) {
 var lastKeyDown = -1;
 
 function keydown() {
-  d3.event.preventDefault();
-
   if(lastKeyDown !== -1) return;
   lastKeyDown = d3.event.keyCode;
 
@@ -303,6 +301,15 @@ function keydown() {
     svg.classed('dragging', true);
   }
 
+  switch(d3.event.keyCode) {
+    case 13: // Enter
+      // insert new node
+      var name = document.getElementById("next_name").value;
+      var node = {id: ++lastNodeId, name: name};
+      nodes.push(node);
+      
+      restart();
+  }
   if(!selected_node && !selected_link) return;
   switch(d3.event.keyCode) {
     case 8: // backspace

@@ -1,4 +1,5 @@
-Click in the open space to **add a node**, drag from one node to another to **add an edge**.  
+Type a name and press **ENTER** or click in the open space to **add a node**.  
+Drag from one node to another to **add an edge**.  
 Shift-drag a node to **move** the graph layout.  
 Click a node or an edge to **select** it.
 
