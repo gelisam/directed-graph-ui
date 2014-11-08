@@ -1,6 +1,6 @@
 // set up SVG for D3
-var width  = 960,
-    height = 500,
+var width  = window.innerWidth,
+    height = window.innerHeight,
     colors = d3.scale.category10();
 
 var svg = d3.select('body')
@@ -372,4 +372,11 @@ nameBox.addEventListener('focus', function() {
   selected_node = null;
   restart();
 })
+window.addEventListener("resize", function() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  svg.attr('width', width)
+     .attr('height', height);
+  force.size([width, height])
+});
 restart();
